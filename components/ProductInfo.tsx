@@ -9,7 +9,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
         {product.rating && (
           <div className="flex items-center ">
             {" "}
-            <FaStar className="text-yellow-400 mr-2" /> {product.rating}
+            <FaStar className="text-yellow-400 mr-2" /> {product.rating.rate} ({product.rating.count} reviews)
           </div>
         )}
         {product.price && (
@@ -23,23 +23,7 @@ const ProductInfo = ({ product }: { product: Product }) => {
             <FaTags className="mr-2" /> {product.category}
           </div>
         )}
-        {product.oldPrice && (
-          <div className="line-through text-gray-400">
-            Old Price : {product.oldPrice}
-          </div>
-        )}
-        {product.stock !== undefined &&
-          (product.stock === 0 ? (
-            <div className="text-red-600 font-semibold">Out of stock</div>
-          ) : (
-            <div className="text-sm text-gray-900">Stock : {product.stock}</div>
-          ))}
-
-        {product.discount && (
-          <div className="text-2xl font-semibold text-red-500">
-            Discount : {product.discount}%
-          </div>
-        )}
+      
         {product.title && product.image && product.price && (
           <button
             aria-label={`Add ${product.title} to cart`}
