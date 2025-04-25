@@ -1,5 +1,6 @@
 import { Product } from "@/type/product";
-import { FaShoppingCart, FaStar, FaTags } from "react-icons/fa";
+import { FaStar, FaTags } from "react-icons/fa";
+import AddToCartButton from "./AddToCartButton";
 
 const ProductInfo = ({ product }: { product: Product }) => {
   return (
@@ -25,13 +26,11 @@ const ProductInfo = ({ product }: { product: Product }) => {
         )}
       
         {product.title && product.image && product.price && (
-          <button
-            aria-label={`Add ${product.title} to cart`}
-            className="bg-black inline-flex justify-center items-center text-white  font-semibold w-full rounded shadow transition mt-4 gap-2 hover:bg-green-600 py-3"
-          >
-            {" "}
-            <FaShoppingCart /> Add to cart
-          </button>
+         <AddToCartButton cart={{id:product.id,
+          title:product.title,
+          image:product.image,
+          price:product.price,
+        quantity:1}} />
         )}
 
         <div>
