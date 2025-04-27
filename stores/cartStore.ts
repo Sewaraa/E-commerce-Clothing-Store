@@ -1,51 +1,50 @@
+import { CartItems } from "@/type/cart";
 import { CartStore } from "@/type/cartStore";
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
-
-export const useCartStore = create<CartStore>()(
+import {createJSONStorage, persist} from "zustand/middleware"
+export const useCartStore=create<CartStore>()(
   persist(
-    (set, get) => ({
-      items: [],
+    (set,get)=>({
+    items:[],
+    addToCart:(newitem:CartItems)=>{
+      const items=get().items;
+      const existing=items.find((i:CartItems)=>i.id===newitem.id)
+      if(existing){
+        const newquantity=existing.quantity+newitem.quantity;
+        set({
+          items:items.map((i:CartItems)=>i.id===newitem.id?{...i,quantity:newquantity}:i)
+        })
+      }else{
+        if(newitem.quantity>0)
+        {set({items:[...items,newitem]});}
+        
+      }
 
-      addToCart: (item) => {
-        const items = get().items;
-        const exist = items.find((i) => i.id === item.id);
-        if (exist) {
-          const newQuantity = exist.quantity + item.quantity;
-          if (newQuantity <= 0) {
-            set({ items: items.filter((i) => i.id !== item.id) });
-          } else {
-            set({
-              items: items.map((i) =>
-                i.id === item.id
-                  ? { ...i, quantity: i.quantity + item.quantity }
-                  : i
-              ),
-            });
-          }
-        } else if (item.quantity > 0) {
-          set({ items: [...items, item] });
-        }
-      },
+    },
+    removeFromCart:(id:string)=>{
+      set({
+        items:get().items.filter((i:CartItems)=>i.id !==id)
+      })
+    },
 
-      removeFromCart: (id) =>
-        set({ items: get().items.filter((i) => i.id !== id) }),
+    clearCart:()=>{
+      set({items:[]},false);
+      if(typeof window !=="undefined"){
+      localStorage.removeItem('cart-storage');
+      }
+    },
+    totalItems:()=>{
+      return get().items.reduce((sum,i)=>sum+i.quantity,0);},
+    totalPrice:()=>{
+      return get().items.reduce((sum,i)=>sum+i.price,0);},
 
-      clearCart: () => {
-        set(() => ({
-          items: [],
-        }));
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("cart-storage");
-        }
-      },
-      totalItems: () => get().items.reduce((sum, i) => sum + i.quantity, 0),
+   
 
-      totalPrice: () =>
-        get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
-    }),
-    {
-      name: "cart-storage",
-    }
-  )
+
+  }),
+  {
+    name:'cart-storage',
+    storage: createJSONStorage(()=>localStorage),
+  }
+)
 );
