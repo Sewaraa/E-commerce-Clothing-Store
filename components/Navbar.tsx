@@ -10,7 +10,7 @@ export const Navbar = () => {
     setIsMounted(true);
   }, []);
   return (
-    <header className="bg-amber-200 sticky top-0 z-50 shadow-sm ">
+    <header className="bg-white sticky top-0 z-50 shadow-sm ">
       <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center ">
         <Link className="text-xl font-bold text-gray-800" href={"/"}>
           FASHION<span className="text-red-400">CUB</span>
