@@ -1,34 +1,56 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { products } from "@/data/products";
 import Head from "next/head";
 import { Product } from "@/type/product";
 import { Suspense, lazy } from "react";
-import { resolve } from "path";
 import Skeleton from "@/components/Skeleton";
 const ProductInfo = lazy(() => import("@/components/ProductInfo"));
 const ProductImage = lazy(() => import("@/components/ProductImage"));
+
 type SingleProductProps = {
   product: Product | null;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = products.map((p) => ({
-    params: { id: p.id },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
+  try {
+    const response = await fetch("https://fakestoreapi.com/products");
+    const products: Product[] = await response.json();
+    const paths = products.map((p) => ({
+      params: { id: p.id.toString() },
+    }));
+    return {
+      paths,
+      fallback: "blocking",
+    };
+  } catch (err) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps<SingleProductProps> = async (
   context
 ) => {
-  const { id } = context.params as { id: string };
-  const product = products.find((p) => p.id === id) || null;
-  return {
-    props: { product },
-  };
+  try {
+    const id=context.params?.id;
+    const response=await fetch(`https://fakestoreapi.com/products/${id}`);
+    if(!response.ok){
+      return{
+        props:{
+          product:null
+        }}}
+    const product=await response.json();
+    return{
+      props:{product},
+      revalidate:600
+    }
+    
+  } catch (err) {
+    return{
+      props:{product:null}
+    }
+  }
 };
 
 const SingleProductPage = ({ product }: SingleProductProps) => {
