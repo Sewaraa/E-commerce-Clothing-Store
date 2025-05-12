@@ -2,7 +2,6 @@ import { useCartStore } from "@/stores/cartStore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-
 export const Navbar = () => {
   const [isMounted, setIsMounted] = useState(false);
   const totalItems=useCartStore((state)=>state.totalItems());
@@ -25,6 +24,7 @@ export const Navbar = () => {
             )}
           </Link>
         )}
+       
       </div>
       </div>
     </header>

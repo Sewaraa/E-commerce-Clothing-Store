@@ -1,7 +1,9 @@
 import { useCartStore } from "@/stores/cartStore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaTrash } from "react-icons/fa";
+import { MdShoppingCartCheckout } from "react-icons/md";
 
 const CartPage = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -20,7 +22,7 @@ const CartPage = () => {
     return () => unsubscribe();
   }, []);
 
-  const removehandle = (id:string) => {
+  const removehandle = (id: string) => {
     removeFromCart(id);
     toast.success("Removed from cart! 🎉");
   };
@@ -98,14 +100,21 @@ const CartPage = () => {
                 </div>
               ))}
             </div>
-            <div className="pt-4 border-t">
+            <div className="pt-4 border-t grid grid-cols-2 gap-4">
               <button
-                className="bg-black hover:bg-red-600 text-white font-semibold rounded shadow px-6 py-2 transition w-full"
+                className="bg-black hover:bg-red-600 text-white font-semibold rounded shadow px-6 py-2 transition "
                 onClick={clearcarthandler}
                 aria-label="Remove all items"
               >
                 <FaTrash className="inline mr-2" /> Clear Cart
               </button>
+              <Link
+                href="/checkout"
+                className="bg-black hover:bg-indigo-700 text-white font-semibold rounded shadow px-6 py-2 transition inline-flex items-center justify-center"
+              >
+                <MdShoppingCartCheckout className="mr-2" size={22} />
+                Checkout
+              </Link>
             </div>
           </div>
           <div className="space-y-4 ml-3">
