@@ -1,32 +1,61 @@
-import { useCartStore } from "@/stores/cartStore";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { FaShoppingCart } from "react-icons/fa";
+import { use, useEffect, useState } from "react";
+import { FaSearch, FaUser, FaHeart, FaShoppingBag, FaBars, FaShoppingCart } from "react-icons/fa";
+import { Sidebar } from "./Sidebar";
+import { useSidebarStore } from "@/stores/sidebarStore";
+
 export const Navbar = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const totalItems=useCartStore((state)=>state.totalItems());
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const{isOpen,toggle}=useSidebarStore();
+  
+
   return (
-    <header className="bg-white sticky top-0 z-50 shadow-sm ">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center ">
-        <Link className="text-xl font-bold text-gray-800" href={"/"}>
-          FASHION<span className="text-red-400">CUB</span>
-        </Link>
-    
-      <div className="flex items-center gap-4">
-        {isMounted && (
-          <Link href={"/cart"} className="relative">
-            <FaShoppingCart  className="text-gray-800 text-2xl"/>
-            {totalItems>0 &&(
-              <span className="absolute -top-2 -right-2  bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">{totalItems}</span>
-            )}
+    <header className=" fixed bg-black/40 text-white w-full left-0 top-0 z-50 backdrop-blur-sm h-[64px]">
+      
+      <div className=" max-w-7xl mx-auto flex justify-between items-center px-4 py-3 ">
+        <div className="flex items-center  gap-3  ">
+          <button onClick={toggle}
+          className="text-2xl">
+              <FaBars/>
+          </button>
+          <Link href={'/women/home'} className="text-2xl  font-bold font-stretch-105%">STELLA</Link>
+        </div>
+        {/*Desktop search*/}
+        <div className="hidden md:flex flex-1 justify-center px-4">
+          <input type="text" placeholder="Search items and brands " className=" bg-white w-1/2 text-black rounded-full px-4 py-2 outline-none "/>
+        </div>
+        {/*Right icons*/}
+        <div className="flex items-center gap-4 text-xl ">
+          <button 
+          onClick={()=>setIsSearchOpen(!isSearchOpen)}
+          className="md:hidden ">
+            <FaSearch/>
+          </button>
+          <button>
+            <FaHeart/>
+          </button>
+          <button>
+            <FaUser/>
+          </button>
+          <Link href={'/cart'}>
+            <FaShoppingCart/>
           </Link>
-        )}
-       
+
+        </div>
+        
+
       </div>
-      </div>
+
+     
+
+      {/* Mobile Search (expands below navbar) */}
+      {isSearchOpen &&(
+         <div className="flex flex-1 justify-center px-4 py-2 md:hidden">
+          <input type="text" placeholder="Search items and brands " className=" bg-white w-1/2 text-black rounded-full px-4 py-2 outline-none "/>
+        </div>
+      )}
+      {isOpen &&<Sidebar isMenuOpen={isOpen}/>}
+     
     </header>
   );
 };
