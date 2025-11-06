@@ -15,7 +15,7 @@ export const Sectionn = ({ type }: { type: string }) => {
   
         <nav className="space-y-2">
           <Buttonforsection href={'/women/home'} category={'Home'}/>
-          <Buttonforsection href={'/women/newin'} category={'New in'}/>
+          <Buttonforsection href={'/women/home#newin'} category={'New in'}/>
           <Buttonforsection href={'/women/clothing'} category={'Clothing'}/>
           <Buttonforsection href={'/women/dresses'} category={'Dresses'}/>
           <Buttonforsection href={'/women/shoes'} category={'Shoes'}/>

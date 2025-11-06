@@ -5,54 +5,43 @@ import { Suspense, lazy } from "react";
 import Skeleton from "@/components/Skeleton";
 const ProductInfo = lazy(() => import("@/components/ProductInfo"));
 const ProductImage = lazy(() => import("@/components/ProductImage"));
+import { sampleData } from "@/data/sampleData";
 
 type SingleProductProps = {
   product: Product | null;
 };
 
+// ✅ الخطوة 1: تحديد المسارات من البيانات المحلية
 export const getStaticPaths: GetStaticPaths = async () => {
-  try {
-    const response = await fetch("https://fakestoreapi.com/products");
-    const products: Product[] = await response.json();
-    const paths = products.map((p) => ({
-      params: { id: p.id.toString() },
-    }));
-    return {
-      paths,
-      fallback: "blocking",
-    };
-  } catch (err) {
-    return {
-      paths: [],
-      fallback: "blocking",
-    };
-  }
+  const paths = sampleData.map((p) => ({
+    params: { id: p.id.toString() },
+  }));
+
+  return {
+    paths,
+    fallback: false, // لأن كل المنتجات محلية، ما في داعي للـ blocking
+  };
 };
 
+// ✅ الخطوة 2: جلب بيانات المنتج من sampleData بدل الـ API
 export const getStaticProps: GetStaticProps<SingleProductProps> = async (
   context
 ) => {
-  try {
-    const id=context.params?.id;
-    const response=await fetch(`https://fakestoreapi.com/products/${id}`);
-    if(!response.ok){
-      return{
-        props:{
-          product:null
-        }}}
-    const product=await response.json();
-    return{
-      props:{product},
-      revalidate:600
-    }
-    
-  } catch (err) {
-    return{
-      props:{product:null}
-    }
+  const id = context.params?.id;
+  const product = sampleData.find((p) => p.id.toString() === id);
+
+  if (!product) {
+    return {
+      props: { product: null },
+    };
   }
+
+  return {
+    props: { product },
+  };
 };
 
+// ✅ الخطوة 3: صفحة عرض المنتج
 const SingleProductPage = ({ product }: SingleProductProps) => {
   if (!product)
     return (
@@ -60,6 +49,7 @@ const SingleProductPage = ({ product }: SingleProductProps) => {
         Product Not Found!
       </div>
     );
+
   if (
     !product ||
     !product.title ||
@@ -69,15 +59,17 @@ const SingleProductPage = ({ product }: SingleProductProps) => {
   ) {
     return <Skeleton />;
   }
+
   return (
     <>
       <Head>
         <title>{product.title}</title>
-        <meta name="description " content={product.description} />
+        <meta name="description" content={product.description} />
         <meta property="og:image" content={product.image} />
       </Head>
+
       <Suspense fallback={<Skeleton />}>
-        <div className="max-w-5xl mx-auto  px-4 py-8">
+        <div className="max-w-5xl mx-auto px-4 py-8 pt-[90px]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             <ProductImage product={product} />
             <ProductInfo product={product} />

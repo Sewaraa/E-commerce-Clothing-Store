@@ -3,7 +3,7 @@ import { Sectionn } from "./Sectionn";
 
 export const Sidebar = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
   const [type, setType] = useState("Women");
-  const[isDisabled,setisDisabled]=useState("true")
+  const[isDisabled,setisDisabled]=useState(false)
   return (
     <aside
       className={`fixed left-0 top-[64px] w-64 h-full p-5 text-gray-800  backdrop-blur-3xl transition-colors duration-300`}

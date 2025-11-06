@@ -35,7 +35,7 @@ const CartPage = () => {
   if (!isMounted) return null;
 
   return (
-    <div className="max-w-5xl py-8 px-4 mx-auto">
+    <div className="max-w-5xl py-8 px-4 mx-auto pt-[80px]">
       <h1 className="text-4xl font-bold mb-6 text-gray-900 tracking-tight">
         Shopping Cart
       </h1>
