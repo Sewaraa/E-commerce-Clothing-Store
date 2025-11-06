@@ -35,9 +35,11 @@ const HomeWomen = () => {
               <p className="text-base md:text-xl mb-6 max-w-md mx-auto drop-shadow-md">
                 Discover timeless elegance and modern style.
               </p>
-              <button className="bg-white text-black px-8 py-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition">
+              <Link 
+              href={'/women/clothing'}
+              className="bg-white text-black px-8 py-3 rounded-full text-sm font-semibold hover:bg-gray-200 transition">
                 Shop Now
-              </button>
+              </Link>
             </div>
           </div>
         </section>

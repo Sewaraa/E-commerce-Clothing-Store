@@ -5,12 +5,17 @@ import AddToCartButton from './AddToCartButton';
 import { Product } from '@/type/product';
 import { CartItems } from '@/type/cart';
 import Sale from './Sale';
+import { useFavoritesStore } from '@/stores/useFavoritesStore';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 type ProductCardProps = {
   product: Product;
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
+  const { toggleFavorite, isFavorite } = useFavoritesStore();
+  const isFav = isFavorite(product.id);
+
   const cartItem: CartItems = {
     id: product.id,
     title: product.title,
@@ -20,11 +25,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <div className="group relative cursor-pointer overflow-hidden rounded-2xl shadow-lg bg-white hover:shadow-2xl transition-shadow duration-300 flex flex-col">
+    <div className="group relative cursor-pointer overflow-hidden rounded-2xl shadow-lg bg-white hover:shadow-2xl transition duration-300 flex flex-col">
+      
       {/* Sale Badge */}
-      {product.sale && (
-       <Sale/>
-      )}
+      {product.sale && <Sale />}
+
+     
 
       {/* Image */}
       <Link href={`/product/${product.id}`}>
@@ -45,16 +51,26 @@ const ProductCard = ({ product }: ProductCardProps) => {
         <p className="text-gray-500 text-sm line-clamp-2 mt-1">{product.description}</p>
 
         {/* Price */}
-        <div className="mt-2">
-          {product.sale ? (
-            <div className="flex items-center gap-2">
-              <span className="text-amber-600 font-bold">${product.salePrice?.toFixed(2)}</span>
-              <span className="text-gray-400 line-through text-sm">${product.price.toFixed(2)}</span>
-            </div>
-          ) : (
-            <span className="text-amber-600 font-bold">${product.price.toFixed(2)}</span>
-          )}
-        </div>
+       {/* Price + Favorite */}
+<div className="mt-2 flex items-center justify-between">
+  {/* السعر */}
+  {product.sale ? (
+    <div className="flex items-center gap-2">
+      <span className="text-amber-600 font-bold">${product.salePrice?.toFixed(2)}</span>
+      <span className="text-gray-400 line-through text-sm">${product.price.toFixed(2)}</span>
+    </div>
+  ) : (
+    <span className="text-amber-600 font-bold">${product.price.toFixed(2)}</span>
+  )}
+
+  {/* Favorite */}
+  <button
+    onClick={() => toggleFavorite(product)}
+    className="text-xl text-gray-400 hover:text-red-500 transition"
+  >
+    {isFav ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+  </button>
+</div>
 
         {/* Add to Cart */}
         <AddToCartButton cart={cartItem} />

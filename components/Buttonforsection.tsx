@@ -16,7 +16,7 @@ export const Buttonforsection = ({
     <Link
       onClick={toggle}
       href={href}
-      className="p-4 flex justify-between items-center bg-gray-200 rounded-xl hover:bg-gray-300 transition"
+      className="p-4 flex justify-between items-center bg-gray-400/90 rounded-xl hover:bg-gray-300 transition"
     >
       <div>{category}</div>
       <img alt="" />

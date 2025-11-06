@@ -3,35 +3,44 @@ import { Sectionn } from "./Sectionn";
 
 export const Sidebar = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
   const [type, setType] = useState("Women");
-  const[isDisabled,setisDisabled]=useState(false)
+
   return (
     <aside
-      className={`fixed left-0 top-[64px] w-64 h-full p-5 text-gray-800  backdrop-blur-3xl transition-colors duration-300`}
+      className={`fixed left-0 top-[64px] h-[calc(100vh-64px)] w-64 px-5 py-6
+      bg-gradient-to-b from-black/20 via-amber-400/50 to-black/20
+      backdrop-blur-md border-r border-amber-100/30 shadow-lg
+      transition-all duration-500 ease-in-out z-50
+      ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
-      <div className="flex justify-between items-center px-4 py-2 border-b-gray-300 border-b-2">
-        <button
-          onClick={() => setType("Men")}
-          disabled={isDisabled}
-          className={`p-4 text-xl font-semibold rounded-2xl hover:bg-gray-500/60 disabled:cursor-not-allowed${
-            type === "Men" ? "bg-blue-500/50" : ""
-          }`}
-        >
-          Men
-        </button>
+      {/* ==== Header Tabs ==== */}
+      <div className="flex justify-around items-center mb-8">
+        {["Men", "Women"].map((gender) => {
+          const isDisabled = gender === "Men"; // نمنع القسم الخاص بالرجال
 
-        <button
-          onClick={() => setType("Women")}
-          className={`p-4 text-xl font-semibold rounded-2xl hover:bg-gray-500/60 ${
-            type === "Women" ? "bg-amber-300/20" : ""
-          }`}
-        >
-          Women
-        </button>
+          return (
+            <button
+              key={gender}
+              disabled={isDisabled}
+              onClick={() => !isDisabled && setType(gender)}
+              className={`px-4 py-2 text-lg font-semibold rounded-full transition-all duration-300
+              ${
+                isDisabled
+                  ? "text-gray-400 bg-gray-100/20 cursor-not-allowed"
+                  : type === gender
+                  ? "bg-gradient-to-r from-amber-400 to-amber-600 text-white shadow-md"
+                  : "text-gray-600 hover:bg-gray-200/30 hover:text-black"
+              }`}
+            >
+              {gender}
+            </button>
+          );
+        })}
       </div>
-      {
-        type&&  <Sectionn type={type} />
-      }
-    
+
+      {/* ==== Sections ==== */}
+      <div className="overflow-y-auto max-h-[80vh] px-1 custom-scrollbar">
+        <Sectionn type={type} />
+      </div>
     </aside>
   );
 };
