@@ -15,7 +15,7 @@ export const Sidebar = ({ isMenuOpen }: { isMenuOpen: boolean }) => {
       {/* ==== Header Tabs ==== */}
       <div className="flex justify-around items-center mb-8">
         {["Men", "Women"].map((gender) => {
-          const isDisabled = gender === "Men"; // نمنع القسم الخاص بالرجال
+          const isDisabled = gender === "Men"; 
 
           return (
             <button

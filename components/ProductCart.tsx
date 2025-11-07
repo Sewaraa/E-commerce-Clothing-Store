@@ -53,7 +53,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
         {/* Price */}
        {/* Price + Favorite */}
 <div className="mt-2 flex items-center justify-between">
-  {/* السعر */}
   {product.sale ? (
     <div className="flex items-center gap-2">
       <span className="text-amber-600 font-bold">${product.salePrice?.toFixed(2)}</span>
@@ -63,7 +62,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
     <span className="text-amber-600 font-bold">${product.price.toFixed(2)}</span>
   )}
 
-  {/* Favorite */}
   <button
     onClick={() => toggleFavorite(product)}
     className="text-xl text-gray-400 hover:text-red-500 transition"

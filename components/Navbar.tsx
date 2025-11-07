@@ -14,7 +14,6 @@ export const Navbar = () => {
   const [results, setResults] = useState<Product[]>([]);
   const { isOpen, toggle } = useSidebarStore();
 
-  // فلترة المنتجات عند الكتابة
   useEffect(() => {
     if (query.trim() === "") {
       setResults([]);
@@ -52,7 +51,7 @@ export const Navbar = () => {
             className="bg-white w-1/2 text-black rounded-full px-4 py-2 outline-none"
           />
 
-          {/* نتائج البحث */}
+          {/* Result Search*/}
           {query && results.length > 0 && (
             <div className="absolute top-[45px] w-1/2 bg-white text-black rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto">
               {results.map((product) => (
@@ -107,7 +106,7 @@ export const Navbar = () => {
             className="bg-white w-full text-black rounded-full px-4 py-2 outline-none"
           />
 
-          {/* نتائج البحث للموبايل */}
+          {/* Result Search in mobile*/}
           {query && results.length > 0 && (<div className="absolute top-[60px] w-[90%] bg-white text-black rounded-xl shadow-lg z-50 max-h-80 overflow-y-auto">
               {results.map((product) => (
                 <Link

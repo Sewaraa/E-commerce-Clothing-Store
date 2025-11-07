@@ -3,6 +3,7 @@ import { sampleData } from '@/data/sampleData';
 
 import { Product } from '@/type/product';
 import ProductCard from '@/components/ProductCart';
+import SectionSale from '@/components/SectionSale';
 
 const DressesPage = () => {
   const dressesProducts: Product[] = sampleData.filter(product =>
@@ -18,6 +19,7 @@ const DressesPage = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      <SectionSale/>
     </div>
   );
 };
